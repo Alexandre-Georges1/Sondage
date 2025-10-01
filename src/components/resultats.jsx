@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
-import './style/Survey.css';
+import { FaTrophy, FaStar, FaThumbsUp, FaSmile, FaDumbbell, FaCheckCircle, FaTimesCircle, FaChartBar, FaRedo } from 'react-icons/fa';
 
 function Resultats({ userName, answers, onRestart }) {
 const currentyear= new Date().getFullYear();
 const alexage= currentyear - 2006;
-const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
+const hasSaved = useRef(false); 
   const correctAnswers = {
     question1: 'KAO Alexandre Georges Essowedeou', 
     question2: alexage.toString(), 
@@ -55,17 +55,15 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
       const userAnswer = answers[key]?.toLowerCase().trim();
       const correctAnswer = correctAnswers[key];
       
-      // Si la réponse correcte est un tableau (plusieurs réponses possibles)
       if (Array.isArray(correctAnswer)) {
         if (correctAnswer.some(ans => ans.toLowerCase() === userAnswer)) {
           score++;
         }
       } 
-      // Si c'est une chaîne vide (question optionnelle)
       else if (correctAnswer === '') {
-        score++; // Toujours compter comme correct
+        score++; 
       }
-      // Comparaison normale
+     
       else if (userAnswer === correctAnswer.toLowerCase()) {
         score++;
       }
@@ -76,9 +74,8 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
   const score = calculateScore();
   const percentage = (score / Object.keys(correctAnswers).length) * 100;
 
-  // Sauvegarder le score dans le localStorage (une seule fois)
   useEffect(() => {
-    // Ne sauvegarder que si ce n'est pas déjà fait
+    
     if (!hasSaved.current) {
       const rankingData = {
         name: userName,
@@ -92,21 +89,46 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
       rankings.push(rankingData);
       localStorage.setItem('surveyRankings', JSON.stringify(rankings));
       
-      hasSaved.current = true; // Marquer comme sauvegardé
+      hasSaved.current = true; 
     }
   }, [userName, score, percentage]);
 
   const getMessage = () => {
     if (percentage === 100) {
-      return '🏆Parfait ! Vous connaissez Alexandre sur le bout des doigts !';
+      return (
+        <>
+          <FaTrophy style={{ color: '#FFD700', marginRight: '10px' }} />
+          Parfait ! Vous connaissez Alexandre sur le bout des doigts !
+        </>
+      );
     } else if (percentage >= 80) {
-      return '🌟 Excellent ! Vous connaissez très bien Alexandre !';
+      return (
+        <>
+          <FaStar style={{ color: '#FFC107', marginRight: '10px' }} />
+          Excellent ! Vous connaissez très bien Alexandre !
+        </>
+      );
     } else if (percentage >= 60) {
-      return '👍 Bien ! Vous connaissez assez bien Alexandre !';
+      return (
+        <>
+          <FaThumbsUp style={{ color: '#2196F3', marginRight: '10px' }} />
+          Bien ! Vous connaissez assez bien Alexandre !
+        </>
+      );
     } else if (percentage >= 40) {
-      return '😊 Pas mal ! Il reste encore quelques détails à découvrir !';
+      return (
+        <>
+          <FaSmile style={{ color: '#FF9800', marginRight: '10px' }} />
+          Pas mal ! Il reste encore quelques détails à découvrir !
+        </>
+      );
     } else {
-      return '💪 Continuez à apprendre ! Alexandre a encore des surprises !';
+      return (
+        <>
+          <FaDumbbell style={{ color: '#F44336', marginRight: '10px' }} />
+          Continuez à apprendre ! Alexandre a encore des surprises !
+        </>
+      );
     }
   };
 
@@ -122,13 +144,16 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
         <p style={{ fontSize: '1.5em', fontWeight: '600' }}>
           {percentage.toFixed(0)}%
         </p>
-        <p style={{ fontSize: '1.2em', marginTop: '10px' }}>
+        <p style={{ fontSize: '1.2em', marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {getMessage()}
         </p>
       </div>
 
       <div className="results-details">
-        <h3 style={{ marginBottom: '20px', color: '#333' }}>📊 Détails de vos réponses</h3>
+        <h3 style={{ marginBottom: '20px', color: '#333', display: 'flex', alignItems: 'center' }}>
+          <FaChartBar style={{ marginRight: '10px', color: '#667eea' }} />
+          Détails de vos réponses
+        </h3>
         {Object.keys(answers).map((key, index) => {
           const userAnswer = answers[key]?.toLowerCase().trim();
           const correctAnswer = correctAnswers[key];
@@ -138,15 +163,20 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
           if (Array.isArray(correctAnswer)) {
             isCorrect = correctAnswer.some(ans => ans.toLowerCase() === userAnswer);
           } else if (correctAnswer === '') {
-            isCorrect = true; // Question optionnelle
+            isCorrect = true; 
           } else {
             isCorrect = userAnswer === correctAnswer.toLowerCase();
           }
           
           return (
             <div key={key} className={`result-item ${isCorrect ? 'correct' : 'incorrect'}`}>
-              <p style={{ fontWeight: '600', marginBottom: '8px' }}>
-                {isCorrect ? '✅' : '❌'} Question {index + 1}
+              <p style={{ fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center' }}>
+                {isCorrect ? (
+                  <FaCheckCircle style={{ color: '#28a745', marginRight: '8px' }} />
+                ) : (
+                  <FaTimesCircle style={{ color: '#dc3545', marginRight: '8px' }} />
+                )}
+                Question {index + 1}
               </p>
               <p style={{ color: '#666', marginBottom: '5px', fontSize: '0.95em' }}>
                 {questionsText[index]}
@@ -166,7 +196,8 @@ const hasSaved = useRef(false); // Flag pour éviter la double sauvegarde
       </div>
 
       <button className="restart-button" onClick={onRestart}>
-        <i class="fa-solid fa-rotate-left"></i> Recommencer le sondage
+        <FaRedo style={{ marginRight: '8px' }} />
+        Recommencer le sondage
       </button>
     </div>
   );

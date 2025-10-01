@@ -1,5 +1,3 @@
-import './style/Survey.css';
-
 function ApresQuestions15({ onContinue }) {
     return (
         <div className="after-questions">

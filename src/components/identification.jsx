@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './style/Survey.css';
 
 function Identification({ onSubmit }) {
   const [name, setName] = useState('');

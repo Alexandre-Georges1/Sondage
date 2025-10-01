@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './style/Survey.css';
 
 function Classement() {
   const [rankings, setRankings] = useState([]);
@@ -23,11 +22,11 @@ function Classement() {
   };
 
   const getScoreColor = (percentage) => {
-    if (percentage === 100) return '#FFD700'; // Or
-    if (percentage >= 80) return '#4CAF50'; // Vert
-    if (percentage >= 60) return '#2196F3'; // Bleu
-    if (percentage >= 40) return '#FF9800'; // Orange
-    return '#F44336'; // Rouge
+    if (percentage === 100) return '#FFD700'; 
+    if (percentage >= 80) return '#4CAF50'; 
+    if (percentage >= 60) return '#2196F3'; 
+    if (percentage >= 40) return '#FF9800'; 
+    return '#F44336'; 
   };
 
 

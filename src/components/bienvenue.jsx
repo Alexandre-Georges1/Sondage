@@ -1,5 +1,3 @@
-import './style/Survey.css';
-
 function Bienvenue({ onStart }) {
   return (
     <div className="bienvenue">

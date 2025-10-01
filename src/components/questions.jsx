@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './style/Survey.css';
 import ApresQuestions10 from './Apresquestion10';
 import ApresQuestions15 from './Apresquestions15';
 
